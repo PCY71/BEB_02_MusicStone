@@ -111,7 +111,7 @@ export function MusicianInfo() {
       </InfoContainer>
       <AlbumContainer>
         <StyledSlider {...settings}>
-          {/* 나중에 데이터 어차피 받아올꺼라 지금은 그냥 다 아이유 앨범으로 해놓음 */}
+          {console.log(albumInfo)}
           {albumInfo
             ? albumInfo.map((album) => (
               <AlbumCard key={album.id} album={album} />
