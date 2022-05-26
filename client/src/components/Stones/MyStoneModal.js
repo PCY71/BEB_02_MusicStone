@@ -75,7 +75,7 @@ const MyStoneModal = ({ modalStone, klayPrice, modalOpen, setModalOpen, account 
                         try {
                             service.methods
                                 //(tokenId, unitPrice, amount)
-                                .addItemToMarket(modalStone.myStoneInfo.token_id, caver.utils.toPeb(price), quantity)
+                                .addItemToMarket(modalStone.myStoneInfo.token_id, caver.utils.toPeb(price.toString()), quantity)
                                 .send({
 
                                     from: account.account,

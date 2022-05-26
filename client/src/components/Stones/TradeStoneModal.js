@@ -34,7 +34,7 @@ const TradeStoneModal = forwardRef(({ klayPrice, stoneData, modalOpen, modalTrad
                 .send({
                     from: account.account,
                     //value = amount * unitPrice
-                    value: caver.utils.toPeb(quantity * modalTrade.price),
+                    value: caver.utils.toPeb((quantity * modalTrade.price).toString()),
                     gas: 1000000,
                 })
                 .then(() => {

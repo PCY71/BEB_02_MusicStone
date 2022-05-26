@@ -67,17 +67,6 @@ export default function RegisterStone() {
       service_abi,
       process.env.REACT_APP_SERVICE_ADDRESS
     );
-    const tx = await service.methods
-      .mintSFT(SFTAmount)
-      .send({
-        from: state.account,
-        gas: 1000000,
-      })
-      .then((data) =>
-        setTokenId(data.events.SFTMinted[0].returnValues.token_id)
-      );
-  };
-  const saveStone = async () => {
     if (
       album &&
       stoneName &&
@@ -89,27 +78,15 @@ export default function RegisterStone() {
       lyrics &&
       SFTAmount
     ) {
-      const formData = new FormData();
-      formData.append("albumId", album);
-      formData.append("stoneName", stoneName);
-      formData.append("description", description);
-      formData.append("stonefile", stonefile);
-      formData.append("lyricist", lyricist);
-      formData.append("composer", composer);
-      formData.append("lyrics", lyrics);
-      formData.append("category", category);
-      formData.append("totalBalance", SFTAmount);
-      formData.append("tokenId", tokenId);
-      await axios
-        .post(`${server}/stones/register/${account}`, formData, {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
+      const tx = await service.methods
+        .mintSFT(SFTAmount)
+        .send({
+          from: state.account,
+          gas: 1000000,
         })
-        .then((res) => {
-          console.log(res.data.message);
-          navigate("/stones/myStone");
-        });
+        .then((data) =>
+          setTokenId(data.events.SFTMinted[0].returnValues.token_id)
+        );
     } else if (album == "") {
       alert("앨범을 선택해주세요. 원하는 앨범이 없다면 앨범을 등록해주세요.");
     } else if (!stoneName) {
@@ -129,6 +106,32 @@ export default function RegisterStone() {
     } else if (!SFTAmount) {
       alert("민팅할 SFT 개수를 입력해주세요.");
     }
+
+
+  };
+  const saveStone = async () => {
+    const formData = new FormData();
+    formData.append("albumId", album);
+    formData.append("stoneName", stoneName);
+    formData.append("description", description);
+    formData.append("stonefile", stonefile);
+    formData.append("lyricist", lyricist);
+    formData.append("composer", composer);
+    formData.append("lyrics", lyrics);
+    formData.append("category", category);
+    formData.append("totalBalance", SFTAmount);
+    formData.append("tokenId", tokenId);
+    await axios
+      .post(`${server}/stones/register/${account}`, formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.message);
+        navigate("/stones/myStone");
+      });
+
   };
   useEffect(() => {
     if (tokenId) {

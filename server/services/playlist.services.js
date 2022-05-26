@@ -54,8 +54,13 @@ const getRemainToken = async (user_id) => {
       { id: user_id },
       { account: 1, deduction: 1, _id: 0 }
     );
+
     const deposit = await ServiceContract.getUserDeposit(user.account);
-    return Number(deposit) - Number(user.deduction);
+    if (user.deduction === undefined) {
+      return Number(deposit);
+    } else {
+      return Number(deposit) - Number(user.deduction);
+    }
   } catch (e) {
     throw Error(e);
   }
